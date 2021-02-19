@@ -1,4 +1,5 @@
 class Person
+  
   attr_accessor :partner, :name
 
   def initialize(name)
@@ -7,8 +8,27 @@ class Person
 
   def get_married(person)
     self.partner = person
-    person.partner = self
+    if person.class != Person
+      begin
+        raise PartnerError
+      rescue PartnerError => error
+          puts error.message
+      end
+    else
+      person.partner = self
+    end
   end
+  # begin
+  #   raise YourCustomError      # this is basic pattern of error rescuing
+  # rescue YourCustomError
+  # end 
+  
+
+  class PartnerError < StandardError
+    def message
+      "you must give the get_married method an argument of an instance of the person class!"
+    end
+  end 
 
 end
 
